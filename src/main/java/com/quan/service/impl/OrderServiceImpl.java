@@ -80,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
 
         System.out.println("--------- "+orderStatus);
 
-        if(orderStatus.equals("PAID") ||orderStatus.equals("DELETED") || orderStatus.equals("DELIVERING")
+        if(orderStatus.equals("DELETED") || orderStatus.equals("DELIVERING")
                 || orderStatus.equals("COMPLETED") || orderStatus.equals("PENDING")) {
             order.setOrderStatus(orderStatus);
             return orderRepository.save(order);
@@ -102,8 +102,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getRestaurantsOrder(Long restautantId, String orderStatus) throws Exception {
         List<Order> orders=orderRepository.findByRestaurantId(restautantId);
-        if(orderStatus != null){
+        if(orderStatus != null && !orderStatus.equals("PAID")) {
             orders = orders.stream().filter(order -> order.getOrderStatus().equals(orderStatus)).collect(Collectors.toList());
+        }
+        else if(orderStatus != null && orderStatus.equals("PAID")) {
+            orders = orders.stream().filter(order -> order.getIsPayment() == true).collect(Collectors.toList());
         }
         return orders;
     }
