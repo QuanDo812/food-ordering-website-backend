@@ -30,6 +30,12 @@ public class JwtTokenValidator extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String jwt = request.getHeader(JwtConstant.JWT_HEADER);
+        String path = request.getRequestURI();
+        if (path.startsWith("/api/distance") || path.startsWith("/api/category")
+        || path.startsWith("/api/foods/")) {
+            filterChain.doFilter(request, response); // Bỏ qua kiểm tra JWT
+            return;
+        }
 
         if(jwt!=null) {
             jwt=jwt.substring(7);
@@ -59,6 +65,8 @@ public class JwtTokenValidator extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
 
     }
+
+
 
 
 }

@@ -24,12 +24,12 @@ public class AppConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(Authorize -> Authorize
-                        .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER","ADMIN")
-                        .requestMatchers("/api/**").authenticated()
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/distance/**", "/api/foods/**", "/api/category/**").permitAll()            // Đặt trước để cho phép truy cập công khai
+                        .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER", "ADMIN")
                         .requestMatchers("/api/shipper/**").hasRole("SHIPPER")
-
-                        .anyRequest().permitAll()
+                        .requestMatchers("/api/**").authenticated()                 // Quy tắc chung cho các API còn lại
+                        .anyRequest().permitAll()                                  // Các request ngoài /api
                 )
                 .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())

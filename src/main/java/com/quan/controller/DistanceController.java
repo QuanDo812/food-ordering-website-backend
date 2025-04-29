@@ -38,7 +38,7 @@ public class DistanceController {
     private RestaurantRepository restaurantRepository;
 
     @GetMapping
-    public ResponseEntity<List<RestaurantDTO>> getDistance(@RequestHeader("Authorization") String jwt,
+    public ResponseEntity<List<RestaurantDTO>> getDistance(
                                                            @RequestParam String address) {
         double[] coords1 = geocodingService.getLatLngFromAddress(address);
         log.warn("address1: " + address + String.format("%.2f %.2f", coords1[0], coords1[1]));
