@@ -106,6 +106,7 @@ public class AuthController {
         AuthReponse authReponse = new AuthReponse();
         authReponse.setJwt(jwt);
         authReponse.setMessage("Login successfully!");
+        authReponse.setRole(ROLE_USER.valueOf(role));
 
         return new ResponseEntity<>(authReponse, HttpStatus.OK);
 

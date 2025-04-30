@@ -106,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
             orders = orders.stream().filter(order -> order.getOrderStatus().equals(orderStatus)).collect(Collectors.toList());
         }
         else if(orderStatus != null && orderStatus.equals("PAID")) {
-            orders = orders.stream().filter(order -> order.getIsPayment() == true).collect(Collectors.toList());
+            orders = orders.stream().filter(order -> order.getIsPayment() != null && order.getIsPayment()).collect(Collectors.toList());
         }
         return orders;
     }

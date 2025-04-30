@@ -41,7 +41,7 @@ public class OrderController {
         if(order!=null) {
             Order res = orderService.createOrder(order,user);
             PaymentResponse paymentResponse = new PaymentResponse();
-            if(order.getIsPayment().equals(Boolean.TRUE)) {
+            if(order.getIsPayment() == true) {
                 String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
                 String paymentUrl = vnpayService.createOrder(request, res.getTotalAmount().intValue(), res.getId(), "Do Dam Quan", baseUrl);
                 cartService.clearCart(user.getId());
